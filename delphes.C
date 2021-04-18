@@ -71,15 +71,37 @@ void delphes::Loop()
 
 // New branches initialization
 
-//  Int_t elec_n,  muon_n, jet_n;
- // Float_t elec_pt;
+  Int_t lep_n,  bjets_n;
+  Float_t lep_pt, lep_eta, lead_jet_pt, lead_jet_eta, lead_bjet_pt, lead_bjet_eta, MT_W, M_jj, pt_jj, eta_jj;
+  Float_t M_higgs, pt_higgs, eta_higgs, M_tribjets, pt_tribjets, eta_tribjets, MT_bjet_lep;
+  Float_t deltaR_lep_leadjet, deltaR_lep_leadbjet, deltaR_lead_bjet_jet;
 
 // Defining the branches 
 
-  Delphes.Branch("elec_n", &elec_n , "elec_n/I");
-  Delphes.Branch("muon_n", &muon_n , "muon_n/I");
-  Delphes.Branch("jet_n", &jet_n , "jet_n/I");
-//  Delphes.Branch("elec_pt", &elec_pt, "elec_pt/F");
+  Delphes.Branch("lep_n", &lep_n, "lep_n/I");
+  Delphes.Branch("lep_pt", &lep_pt , "lep_pt/F");
+  Delphes.Branch("lep_eta", &lep_eta, "lep_eta/F");
+  Delphes.Branch("lead_jet_pt", &lead_jet_pt, "lead_jet_pt/F");
+  Delphes.Branch("lead_jet_eta", &lead_jet_eta, "lead_jet_eta/F");
+  Delphes.Branch("bjets_n", &bjets_n, "bjets_n/I");
+  Delphes.Branch("lead_bjet_pt", &lead_bjet_pt, "lead_bjet_pt/F");
+  Delphes.Branch("lead_bjet_eta", &lead_bjet_eta, "lead_bjet_eta/F");
+  Delphes.Branch("MT_W", &MT_W, "MT_W/F");
+  Delphes.Branch("M_jj", &M_jj, "M_jj/F");
+  Delphes.Branch("pt_jj", &pt_jj, "pt_jj/F");
+  Delphes.Branch("eta_jj", &eta_jj, "eta_jj/F");
+  Delphes.Branch("M_higgs", &M_higgs, "M_higgs/F");
+  Delphes.Branch("pt_higgs" , &pt_higgs, "pt_higgs/F");
+  Delphes.Branch("eta_higgs", &eta_higgs, "eta_higgs/F");
+  Delphes.Branch("M_tribjets", &M_tribjets, "M_tribjets/F");
+  Delphes.Branch("pt_tribjets", &pt_tribjets, "pt_tribjets/F");
+  Delphes.Branch("eta_tribjets", &eta_tribjets, "eta_tribjets/F");
+  Delphes.Branch("MT_bjet_lep", &MT_bjet_lep, "MT_bjet_lep/F");
+  Delphes.Branch("deltaR_lep_leadjet", &deltaR_lep_leadjet, "deltaR_lep_leadjet/F");
+  Delphes.Branch("deltaR_lep_leadbjet", &deltaR_lep_leadbjet, "deltaR_lep_leadbjet/F");
+  Delphes.Branch("deltaR_lead_bjet_jet", &deltaR_lead_bjet_jet, "deltaR_lead_bjet/F");
+
+  
 
 
   for (Long64_t jentry=0; jentry<nentries;jentry++) {
@@ -98,7 +120,7 @@ void delphes::Loop()
        // temporary
         TLorentzVector leptemp;
         leptemp.SetPtEtaPhiE(elec_pt->at(i)/1000., elec_eta->at(i), elec_phi->at(i), elec_E->at(i)/1000.);  
-  }
+    }
  
     
     // End the code here

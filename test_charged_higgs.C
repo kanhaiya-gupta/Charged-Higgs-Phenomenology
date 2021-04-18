@@ -283,7 +283,7 @@ void test_charged_higgs()
  
       jet_n++;
     // count the b-jets
-      if(jet->BTag==1&&jet->PT>40){bjet_n++;}
+      if(jet->BTag==1){bjet_n++;}
 
       jet_pt->push_back(jet->PT);
       jet_eta->push_back(jet->Eta);
