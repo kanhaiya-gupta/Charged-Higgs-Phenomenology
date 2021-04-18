@@ -3,12 +3,22 @@
 #include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>
+#include <iostream>
+#include <fstream>
+#include "TLorentzVector.h"
+#include "TChain.h"
+#include <vector>
+using std::vector;
+
 
 void delphes::Loop()
 {
 //   In a ROOT session, you can do:
 //      root> .L delphes.C
 //      root> delphes t
+//
+//
+//
 //      root> t.GetEntry(12); // Fill t data members with entry number 12
 //      root> t.Show();       // Show values of entry 12
 //      root> t.Show(16);     // Read and show values of entry 16
