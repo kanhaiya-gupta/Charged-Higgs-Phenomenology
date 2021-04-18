@@ -1,28 +1,18 @@
-#define delphes_class_cxx
-#include "delphes_class.h"
+#define delphes_cxx
+#include "delphes.h"
 #include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>
-#include <iostream>
-#include <fstream>
-#include "TLorentzVector.h"
-#include "TChain.h"
-#include "TMath.h"
-#include <vector>
-using std::vector;
 
-void delphes_class::Loop()
+void delphes::Loop()
 {
 //   In a ROOT session, you can do:
-//
-//      Root > .L delphes_class.C
-//      Root > delphes_class t
-//
-//
-//      Root > t.GetEntry(12); // Fill t data members with entry number 12
-//      Root > t.Show();       // Show values of entry 12
-//      Root > t.Show(16);     // Read and show values of entry 16
-//      Root > t.Loop();       // Loop on all entries
+//      root> .L delphes.C
+//      root> delphes t
+//      root> t.GetEntry(12); // Fill t data members with entry number 12
+//      root> t.Show();       // Show values of entry 12
+//      root> t.Show(16);     // Read and show values of entry 16
+//      root> t.Loop();       // Loop on all entries
 //
 
 //     This is the loop skeleton where:
@@ -44,8 +34,7 @@ void delphes_class::Loop()
    Long64_t nentries = fChain->GetEntriesFast();
 
    Long64_t nbytes = 0, nb = 0;
-  
-   nentries = 10000;  // number of events
+   nentries = 10000;                         // Number of events to test the code
 
    Int_t count_init = 0;
    Int_t count_lep = 0;
@@ -74,60 +63,37 @@ void delphes_class::Loop()
   Delphes.Branch("jet_n", &jet_n , "jet_n/I");
   Delphes.Branch("elec_pt", &elec_pt, "elec_pt/F");
   
-
-
    for (Long64_t jentry=0; jentry<nentries;jentry++) {
       Long64_t ientry = LoadTree(jentry);
       if (ientry < 0) break;
       nb = fChain->GetEntry(jentry);   nbytes += nb;
       // if (Cut(ientry) < 0) continue;
- 
-      // Begin your code here
 
-      count_init = count_init + 1;
+   // Begin your code here
 
-        // Preselection of good leptons
-      int goodlep_index[2];
-      int goodlep_n = 0;
-      int lep_index =0;
-
-	  
-  for(Int_t i=0; i<muon_n; i++)
+     for(Int_t i=0; i<phot_n; i++)
     {
-        // temporary
-      //  fChain->GetEntry(i);
-        if (muon_n != 1) continue;
-        TLorentzVector pmu1;
-        pmu1.SetPtEtaPhiM((*muon_pt)[0]/1000.,(*muon_eta)[0],(*muon_phi)[0],0.1057);
-     //   leptemp.SetPtEtaPhiE(elec_pt->at(i)/1000., elec_eta->at(i), elec_phi->at(i), 0); 
-     //  float pt = (*elec_pt)[i];
-     // std::cout<<"elec_pt: "<< elec_pt->At(i) <<std::endl;  
+       
 
-    }
-	  
-
-
-
-     
-
-
-
-
-
-     
+       // temporary
+        TLorentzVector leptemp;
+        leptemp.SetPtEtaPhiE(phot_pt->at(i)/1000., phot_eta->at(i), phot_phi->at(i), phot_E->at(i)/1000.);  
+  }
+ 
+    
     // End the code here
 
-  Delphes.Fill();
-     
-   }
+   Delphes.Fill();
 
-    // Print the total number of countd events here
+   }
+   
+   // Print the total number of countd events here
    //  cout << "Analyzed a total of               : " << nEvent << " events" << endl;
     Delphes.Write("",TObject::kWriteDelete);
-  //  outf.Write();
+
 }
 
-delphes_class::delphes_class(TTree *tree) : fChain(0) 
+delphes::delphes(TTree *tree) : fChain(0) 
  {
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
@@ -140,4 +106,3 @@ delphes_class::delphes_class(TTree *tree) : fChain(0)
    Init(tree);
    Loop();
 }
-
