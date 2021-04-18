@@ -14,7 +14,7 @@
 
 // Header file for the classes stored in the TTree if any.
 #include "vector"
-#include "vector"
+using std::vector;
 
 class delphes {
 public :

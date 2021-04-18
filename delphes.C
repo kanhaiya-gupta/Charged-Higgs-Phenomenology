@@ -65,8 +65,16 @@ void delphes::Loop()
  
   TTree Delphes("Delphes","a simple tree for analysis");
 
+//////////////////////// NOTE    ////////////////////// 
+// Donot use the variables that are already there from the previous tree
+// We can use incase them in branches if we can to make the same branch as the previous one
+
+// New branches initialization
+
 //  Int_t elec_n,  muon_n, jet_n;
  // Float_t elec_pt;
+
+// Defining the branches 
 
   Delphes.Branch("elec_n", &elec_n , "elec_n/I");
   Delphes.Branch("muon_n", &muon_n , "muon_n/I");
@@ -74,7 +82,7 @@ void delphes::Loop()
 //  Delphes.Branch("elec_pt", &elec_pt, "elec_pt/F");
 
 
-   for (Long64_t jentry=0; jentry<nentries;jentry++) {
+  for (Long64_t jentry=0; jentry<nentries;jentry++) {
       Long64_t ientry = LoadTree(jentry);
       if (ientry < 0) break;
       nb = fChain->GetEntry(jentry);   nbytes += nb;
