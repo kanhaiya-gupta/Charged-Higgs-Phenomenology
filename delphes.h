@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////
 // This class has been automatically generated on
-// Sun Apr 18 11:30:30 2021 by ROOT version 6.16/00
+// Sun Apr 18 15:04:01 2021 by ROOT version 6.16/00
 // from TTree delphes/a simple tree for analysis
 // found on file: signal.root
 //////////////////////////////////////////////////////////
@@ -14,7 +14,7 @@
 
 // Header file for the classes stored in the TTree if any.
 #include "vector"
-using std::vector;
+#include "vector"
 
 class delphes {
 public :
@@ -37,12 +37,14 @@ public :
    vector<float>   *elec_pt;
    vector<float>   *elec_eta;
    vector<float>   *elec_phi;
+   vector<float>   *elec_E;
    vector<float>   *elec_sumpt_charged;
    Int_t           muon_n;
    vector<int>     *muon_charge;
    vector<float>   *muon_pt;
    vector<float>   *muon_eta;
    vector<float>   *muon_phi;
+   vector<float>   *muon_E;
    vector<float>   *muon_sumpt_charged;
    Int_t           phot_n;
    vector<float>   *phot_pt;
@@ -57,6 +59,7 @@ public :
    vector<float>   *jet_pt;
    vector<float>   *jet_eta;
    vector<float>   *jet_phi;
+   vector<float>   *jet_E;
    vector<float>   *jet_mass;
    vector<int>     *jet_flavor;
    vector<int>     *jet_btag;
@@ -78,12 +81,14 @@ public :
    TBranch        *b_elec_pt;   //!
    TBranch        *b_elec_eta;   //!
    TBranch        *b_elec_phi;   //!
+   TBranch        *b_elec_E;   //!
    TBranch        *b_elec_sumpt_charged;   //!
    TBranch        *b_muon_n;   //!
    TBranch        *b_muon_charge;   //!
    TBranch        *b_muon_pt;   //!
    TBranch        *b_muon_eta;   //!
    TBranch        *b_muon_phi;   //!
+   TBranch        *b_muon_E;   //!
    TBranch        *b_muon_sumpt_charged;   //!
    TBranch        *b_phot_n;   //!
    TBranch        *b_phot_pt;   //!
@@ -98,6 +103,7 @@ public :
    TBranch        *b_jet_pt;   //!
    TBranch        *b_jet_eta;   //!
    TBranch        *b_jet_phi;   //!
+   TBranch        *b_jet_E;   //!
    TBranch        *b_jet_mass;   //!
    TBranch        *b_jet_flavor;   //!
    TBranch        *b_jet_btag;   //!
@@ -166,11 +172,13 @@ void delphes::Init(TTree *tree)
    elec_pt = 0;
    elec_eta = 0;
    elec_phi = 0;
+   elec_E = 0;
    elec_sumpt_charged = 0;
    muon_charge = 0;
    muon_pt = 0;
    muon_eta = 0;
    muon_phi = 0;
+   muon_E = 0;
    muon_sumpt_charged = 0;
    phot_pt = 0;
    phot_eta = 0;
@@ -179,6 +187,7 @@ void delphes::Init(TTree *tree)
    jet_pt = 0;
    jet_eta = 0;
    jet_phi = 0;
+   jet_E = 0;
    jet_mass = 0;
    jet_flavor = 0;
    jet_btag = 0;
@@ -203,12 +212,14 @@ void delphes::Init(TTree *tree)
    fChain->SetBranchAddress("elec_pt", &elec_pt, &b_elec_pt);
    fChain->SetBranchAddress("elec_eta", &elec_eta, &b_elec_eta);
    fChain->SetBranchAddress("elec_phi", &elec_phi, &b_elec_phi);
+   fChain->SetBranchAddress("elec_E", &elec_E, &b_elec_E);
    fChain->SetBranchAddress("elec_sumpt_charged", &elec_sumpt_charged, &b_elec_sumpt_charged);
    fChain->SetBranchAddress("muon_n", &muon_n, &b_muon_n);
    fChain->SetBranchAddress("muon_charge", &muon_charge, &b_muon_charge);
    fChain->SetBranchAddress("muon_pt", &muon_pt, &b_muon_pt);
    fChain->SetBranchAddress("muon_eta", &muon_eta, &b_muon_eta);
    fChain->SetBranchAddress("muon_phi", &muon_phi, &b_muon_phi);
+   fChain->SetBranchAddress("muon_E", &muon_E, &b_muon_E);
    fChain->SetBranchAddress("muon_sumpt_charged", &muon_sumpt_charged, &b_muon_sumpt_charged);
    fChain->SetBranchAddress("phot_n", &phot_n, &b_phot_n);
    fChain->SetBranchAddress("phot_pt", &phot_pt, &b_phot_pt);
@@ -223,6 +234,7 @@ void delphes::Init(TTree *tree)
    fChain->SetBranchAddress("jet_pt", &jet_pt, &b_jet_pt);
    fChain->SetBranchAddress("jet_eta", &jet_eta, &b_jet_eta);
    fChain->SetBranchAddress("jet_phi", &jet_phi, &b_jet_phi);
+   fChain->SetBranchAddress("jet_E", &jet_E, &b_jet_E);
    fChain->SetBranchAddress("jet_mass", &jet_mass, &b_jet_mass);
    fChain->SetBranchAddress("jet_flavor", &jet_flavor, &b_jet_flavor);
    fChain->SetBranchAddress("jet_btag", &jet_btag, &b_jet_btag);

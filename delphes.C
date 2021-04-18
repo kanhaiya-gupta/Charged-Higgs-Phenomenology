@@ -18,7 +18,6 @@ void delphes::Loop()
 //      root> delphes t
 //
 //
-//
 //      root> t.GetEntry(12); // Fill t data members with entry number 12
 //      root> t.Show();       // Show values of entry 12
 //      root> t.Show(16);     // Read and show values of entry 16
@@ -44,7 +43,8 @@ void delphes::Loop()
    Long64_t nentries = fChain->GetEntriesFast();
 
    Long64_t nbytes = 0, nb = 0;
-   nentries = 10000;                         // Number of events to test the code
+
+   //   nentries = 10000;                         // Number of events to test the code
 
    Int_t count_init = 0;
    Int_t count_lep = 0;
@@ -65,29 +65,31 @@ void delphes::Loop()
  
   TTree Delphes("Delphes","a simple tree for analysis");
 
-  Int_t elec_n,  muon_n, jet_n;
-  Float_t elec_pt;
+//  Int_t elec_n,  muon_n, jet_n;
+ // Float_t elec_pt;
 
   Delphes.Branch("elec_n", &elec_n , "elec_n/I");
   Delphes.Branch("muon_n", &muon_n , "muon_n/I");
   Delphes.Branch("jet_n", &jet_n , "jet_n/I");
-  Delphes.Branch("elec_pt", &elec_pt, "elec_pt/F");
-  
+//  Delphes.Branch("elec_pt", &elec_pt, "elec_pt/F");
+
+
    for (Long64_t jentry=0; jentry<nentries;jentry++) {
       Long64_t ientry = LoadTree(jentry);
       if (ientry < 0) break;
       nb = fChain->GetEntry(jentry);   nbytes += nb;
       // if (Cut(ientry) < 0) continue;
 
-   // Begin your code here
+     // Begin the code here
 
-     for(Int_t i=0; i<phot_n; i++)
+     
+    for(Int_t i=0; i<elec_n; i++)
     {
        
 
        // temporary
         TLorentzVector leptemp;
-        leptemp.SetPtEtaPhiE(phot_pt->at(i)/1000., phot_eta->at(i), phot_phi->at(i), phot_E->at(i)/1000.);  
+        leptemp.SetPtEtaPhiE(elec_pt->at(i)/1000., elec_eta->at(i), elec_phi->at(i), elec_E->at(i)/1000.);  
   }
  
     
@@ -96,12 +98,13 @@ void delphes::Loop()
    Delphes.Fill();
 
    }
-   
+
    // Print the total number of countd events here
    //  cout << "Analyzed a total of               : " << nEvent << " events" << endl;
     Delphes.Write("",TObject::kWriteDelete);
 
 }
+
 
 delphes::delphes(TTree *tree) : fChain(0) 
  {
@@ -110,9 +113,11 @@ delphes::delphes(TTree *tree) : fChain(0)
   if (tree == 0) {
  
       TChain* tchain = new TChain("delphes");
-          tchain->Add("/home/kanhaiya/Delphes_Analysis/signal.root");
+          tchain->Add("/home/kanhaiya/Charged_higgs_analysis/signal.root");
           tree = tchain;
    }
    Init(tree);
    Loop();
 }
+
+

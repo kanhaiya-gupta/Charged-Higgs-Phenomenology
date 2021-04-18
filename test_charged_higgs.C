@@ -11,11 +11,12 @@ R__LOAD_LIBRARY(libDelphes)
 #include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>
-#include <vector>
-using std::vector;
 #include <iostream>
 #include <fstream>
 #include "TLorentzVector.h"
+#include <vector>
+using std::vector;
+
 
 
 
@@ -28,8 +29,8 @@ void test_charged_higgs()
    
   // Create chain of root trees
   TChain chain("Delphes");
- // chain.Add("/home/kanhaiya/Madgraph/MG5_aMC_v2_5_5/charged_higgs_signal/Events/run_01/tag_1_delphes_events.root");
-  chain.Add("/home/kanhaiya/Madgraph/MG5_aMC_v2_5_5/ttbar_jets/Events/run_01/tag_1_delphes_events.root");
+  chain.Add("/home/kanhaiya/Madgraph/MG5_aMC_v2_5_5/charged_higgs_signal/Events/run_01/tag_1_delphes_events.root");
+ // chain.Add("/home/kanhaiya/Madgraph/MG5_aMC_v2_5_5/ttbar_jets/Events/run_01/tag_1_delphes_events.root");
 
   // Create object of class ExRootTreeReader
   ExRootTreeReader *treeReader = new ExRootTreeReader(&chain);
@@ -52,7 +53,7 @@ void test_charged_higgs()
 
 // creating the root file as output
 
-  TFile outf("ttbar.root","RECREATE");
+  TFile outf("signal.root","RECREATE");
   std::cout << "creating output ..." <<std::endl;
 
 // creating a tree named delphes
@@ -78,10 +79,10 @@ void test_charged_higgs()
   Double_t random;
   std::vector<int> *PID, *status, *charge, *mother_1, *mother_2, *daughter_1, *daughter_2; 
   std::vector<int> *elec_charge, *muon_charge;
-  std::vector<float> *elec_pt, *elec_eta, *elec_phi, *elec_sumpt_charged;
-  std::vector<float> *muon_pt, *muon_eta, *muon_phi, *muon_sumpt_charged;
+  std::vector<float> *elec_pt, *elec_eta, *elec_phi, *elec_E, *elec_sumpt_charged;
+  std::vector<float> *muon_pt, *muon_eta, *muon_phi, *muon_E, *muon_sumpt_charged;
   std::vector<float> *phot_pt, *phot_eta, *phot_phi, *phot_E;
-  std::vector<float> *jet_pt, *jet_eta, *jet_phi, *jet_mass, *jet_ncharged;
+  std::vector<float> *jet_pt, *jet_eta, *jet_phi, *jet_E, *jet_mass, *jet_ncharged;
   std::vector<int> *jet_flavor, *jet_btag, *jet_tautag;
   
 
@@ -103,12 +104,14 @@ void test_charged_higgs()
   delphes.Branch("elec_pt", &elec_pt);
   delphes.Branch("elec_eta", &elec_eta);
   delphes.Branch("elec_phi", &elec_phi);
+  delphes.Branch("elec_E", &elec_E);
   delphes.Branch("elec_sumpt_charged", &elec_sumpt_charged);
   delphes.Branch("muon_n", &muon_n , "muon_n/I");
   delphes.Branch("muon_charge", &muon_charge);
   delphes.Branch("muon_pt", &muon_pt);
   delphes.Branch("muon_eta", &muon_eta);
   delphes.Branch("muon_phi", &muon_phi);
+  delphes.Branch("muon_E", &muon_E);
   delphes.Branch("muon_sumpt_charged", &muon_sumpt_charged);
   delphes.Branch("phot_n", &phot_n , "phot_n/I");
   delphes.Branch("phot_pt", &phot_pt);
@@ -123,6 +126,7 @@ void test_charged_higgs()
   delphes.Branch("jet_pt", &jet_pt);
   delphes.Branch("jet_eta", &jet_eta);
   delphes.Branch("jet_phi", &jet_phi);
+  delphes.Branch("jet_E", &jet_E);
   delphes.Branch("jet_mass", &jet_mass);
   delphes.Branch("jet_flavor", &jet_flavor);
   delphes.Branch("jet_btag", &jet_btag);
@@ -180,6 +184,7 @@ void test_charged_higgs()
     elec_pt->clear();
     elec_eta->clear();
     elec_phi->clear();
+    elec_E->clear();
     elec_charge->clear();
     elec_sumpt_charged->clear();
 
@@ -192,6 +197,7 @@ void test_charged_higgs()
       elec_pt->push_back(electron->PT);
       elec_eta->push_back(electron->Eta);
       elec_phi->push_back(electron->Phi);
+      elec_E->push_back((electron->P4()).E());
       elec_charge->push_back(electron->Charge);
       elec_sumpt_charged->push_back(electron->SumPtCharged);
    
@@ -201,6 +207,7 @@ void test_charged_higgs()
      muon_pt->clear();
      muon_eta->clear();
      muon_phi->clear();
+     muon_E->clear();
      muon_charge->clear();
      muon_sumpt_charged->clear();
 
@@ -211,6 +218,7 @@ void test_charged_higgs()
       muon_pt->push_back(muon->PT);
       muon_eta->push_back(muon->Eta);
       muon_phi->push_back(muon->Phi);
+      muon_E->push_back((muon->P4()).E());
       muon_charge->push_back(muon->Charge);
       muon_sumpt_charged->push_back(muon->SumPtCharged);
 
@@ -261,6 +269,7 @@ void test_charged_higgs()
      jet_pt->clear();
      jet_eta->clear();
      jet_phi->clear();
+     jet_E->clear();
      jet_mass->clear();
      jet_flavor->clear();
      jet_btag->clear();
@@ -279,6 +288,7 @@ void test_charged_higgs()
       jet_pt->push_back(jet->PT);
       jet_eta->push_back(jet->Eta);
       jet_phi->push_back(jet->Phi);
+      jet_E->push_back((jet->P4()).E());
       jet_mass->push_back(jet->Mass);
       jet_flavor->push_back(jet->Flavor);
       jet_btag->push_back(jet->BTag);
