@@ -44,7 +44,7 @@ void delphes::Loop()
 
    Long64_t nbytes = 0, nb = 0;
 
-   //   nentries = 10000;                         // Number of events to test the code
+  // nentries = 10000;                         // Number of events to test the code
 
    Int_t count_init = 0;
    Int_t count_lep = 0;
@@ -112,16 +112,118 @@ void delphes::Loop()
 
      // Begin the code here
 
-     
+     count_init = count_init + 1;
+
+    // Merging the electron and muon to leptons (begin)
+
+	  int goodlep_n = 0;
+    int goodlep_index = 0;
+	  int lep_index =0;
+    lep_n = 0;
+
+    
     for(Int_t i=0; i<elec_n; i++)
     {
        
-
+      //count_lep++;
        // temporary
-        TLorentzVector leptemp;
-        leptemp.SetPtEtaPhiE(elec_pt->at(i)/1000., elec_eta->at(i), elec_phi->at(i), elec_E->at(i)/1000.);  
+        TLorentzVector eletemp;
+        eletemp.SetPtEtaPhiE(elec_pt->at(i), elec_eta->at(i), elec_phi->at(i), elec_E->at(i));
+		  
+        
+       
+
+      // selecting hard pt leptons
+        if(elec_pt->at(i) >25.)
+        {
+          count_lep++;
+          goodlep_n = goodlep_n + 1;
+          goodlep_index = i;
+			    lep_index++;
+          lep_n = goodlep_n;
+        }
+    
     }
- 
+    TLorentzVector Lepton_1  = TLorentzVector();
+    if(goodlep_n==1)
+		{
+      
+		  Lepton_1.SetPtEtaPhiE(elec_pt->at(goodlep_index), elec_eta->at(goodlep_index), elec_phi->at(goodlep_index),elec_E->at(goodlep_index));
+    }
+       // updating the lepton status
+   
+    goodlep_n = 0;
+    for(Int_t i=0; i<muon_n; i++)
+    {  
+      //  count_lep++;
+        TLorentzVector muotemp;
+        muotemp.SetPtEtaPhiE(muon_pt->at(i), muon_eta->at(i), muon_phi->at(i), muon_E->at(i));
+        if(muon_pt->at(i) > 25.)
+        {
+          count_lep++;
+          goodlep_n = goodlep_n + 1;
+          goodlep_index = i;
+			    lep_index++;
+          lep_n = goodlep_n;
+        }
+      
+
+     if(goodlep_n==1)
+	    { 
+		  Lepton_1.SetPtEtaPhiE(muon_pt->at(goodlep_index), muon_eta->at(goodlep_index), muon_phi->at(goodlep_index),muon_E->at(goodlep_index));
+      }
+  
+    }
+
+    // Merged the electron and muon to form leptons (end)
+
+ // cout << "Good lep             : " << goodlep_n << " events" << endl;
+    lep_pt = Lepton_1.Pt();
+    lep_eta = Lepton_1.Eta();
+    
+    //Exactly two good lepton
+     if(goodlep_n==1)
+         {
+	     
+	    //Preselection of good jets
+	    int goodbjet_index[3];
+      int goodbjet_n = 0;
+	    int bjet_index = 0;
+		      
+		     
+		      
+	  for(Int_t i=0; i<jet_n; i++)
+        {
+	        if(jet_btag->at(i)==1)
+		   {
+              count_bjet = count_bjet + 1;
+				      goodbjet_n = goodbjet_n + 1;
+				      goodbjet_index[bjet_index] = i;
+				      bjet_index++;
+       }
+        	}
+    
+    if(goodbjet_n==3)
+         {
+            
+            int goodbjet1_index = goodbjet_index[0];
+	          int goodbjet2_index = goodbjet_index[1];
+            int goodbjet3_index = goodbjet_index[2];
+                         
+           // TLorentzVector definitions
+	          TLorentzVector bjet_1  = TLorentzVector();
+	          TLorentzVector bjet_2  = TLorentzVector();
+            TLorentzVector bjet_3  = TLorentzVector();
+    
+              bjet_1.SetPtEtaPhiE(jet_pt->at(goodbjet1_index), jet_eta->at(goodbjet1_index), jet_phi->at(goodbjet1_index),jet_E->at(goodbjet1_index));
+             	bjet_2.SetPtEtaPhiE(jet_pt->at(goodbjet2_index), jet_eta->at(goodbjet2_index), jet_phi->at(goodbjet2_index),jet_E->at(goodbjet2_index));
+				      bjet_3.SetPtEtaPhiE(jet_pt->at(goodbjet3_index), jet_eta->at(goodbjet3_index), jet_phi->at(goodbjet3_index),jet_E->at(goodbjet3_index));
+		  
+
+         }
+
+         }
+
     
     // End the code here
 
@@ -130,7 +232,10 @@ void delphes::Loop()
    }
 
    // Print the total number of countd events here
-   //  cout << "Analyzed a total of               : " << nEvent << " events" << endl;
+    cout << "Analyzed a total of :  " << count_init << " events" << endl;
+    cout << "Passed the lepton condition:   " << count_lep <<  " events" << endl;
+    cout << "Passed the bjet condition:   " << count_bjet <<  " events" << endl;
+
     Delphes.Write("",TObject::kWriteDelete);
 
 }
