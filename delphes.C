@@ -194,7 +194,7 @@ void delphes::Loop()
 		      
 	  for(Int_t i=0; i<jet_n; i++)
         {
-	        if(jet_btag->at(i)==1)
+	        if((jet_pt->at(i)>=35) && abs(jet_eta->at(i))<=2.5 && jet_btag->at(i)==1)
 		   {
               count_bjet = count_bjet + 1;
 				      goodbjet_n = goodbjet_n + 1;
@@ -205,7 +205,7 @@ void delphes::Loop()
     
     if(goodbjet_n==3)
          {
-            
+          //  cout << "Passed the bjet condition:   "<< endl;
             int goodbjet1_index = goodbjet_index[0];
 	          int goodbjet2_index = goodbjet_index[1];
             int goodbjet3_index = goodbjet_index[2];
@@ -221,6 +221,8 @@ void delphes::Loop()
 		  
 
          }
+        
+        
 
          }
 
