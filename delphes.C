@@ -228,7 +228,7 @@ void delphes::Loop()
 		         {
          if(bjet1_index==i){continue;}
          if(bjet2_index==i){continue;}
-      //   if(bjet3_index==i){continue;}
+         if(bjet3_index==i){continue;}
 
          if(test_jet2==0){
            jet1_index = i;
