@@ -185,46 +185,73 @@ void delphes::Loop()
      if(goodlep_n==1)
          {
 	     
-	    //Preselection of good jets
-	    int goodbjet_index[3];
-      int goodbjet_n = 0;
-	    int bjet_index = 0;
-		      
-		     
-		      
-	  for(Int_t i=0; i<jet_n; i++)
+
+      int test_jet1 = 0;
+      int test_jet2 = 0;
+
+      int jet1_index = -1;
+      int jet2_index = -1;
+      int bjet1_index = -1;
+      int bjet2_index = -1;
+      int bjet3_index = -1; 
+
+      // TLorentzVector definitions
+      TLorentzVector jet1  = TLorentzVector();
+	    TLorentzVector jet2  = TLorentzVector();
+	    TLorentzVector bjet_1  = TLorentzVector();
+	    TLorentzVector bjet_2  = TLorentzVector();
+      TLorentzVector bjet_3  = TLorentzVector();
+  
+		    for(Int_t i=0; i<jet_n; i++)
         {
 	        if((jet_pt->at(i)>=35) && abs(jet_eta->at(i))<=2.5 && jet_btag->at(i)==1)
-		   {
-              count_bjet = count_bjet + 1;
-				      goodbjet_n = goodbjet_n + 1;
-				      goodbjet_index[bjet_index] = i;
-				      bjet_index++;
-       }
+		        {
+              if(test_jet1==0){
+                bjet1_index = i;
+                bjet_1.SetPtEtaPhiE(jet_pt->at(bjet1_index), jet_eta->at(bjet1_index), jet_phi->at(bjet1_index),jet_E->at(bjet1_index));
+             
+              }
+              if(test_jet1==1){
+                bjet2_index = i;
+                bjet_2.SetPtEtaPhiE(jet_pt->at(bjet2_index), jet_eta->at(bjet2_index), jet_phi->at(bjet2_index),jet_E->at(bjet2_index));
+                break;
+              }
+              
+              test_jet1++;
+              
+            }
         	}
-    
-    if(goodbjet_n==3)
-         {
-          //  cout << "Passed the bjet condition:   "<< endl;
-            int goodbjet1_index = goodbjet_index[0];
-	          int goodbjet2_index = goodbjet_index[1];
-            int goodbjet3_index = goodbjet_index[2];
-                         
-           // TLorentzVector definitions
-	          TLorentzVector bjet_1  = TLorentzVector();
-	          TLorentzVector bjet_2  = TLorentzVector();
-            TLorentzVector bjet_3  = TLorentzVector();
-    
-              bjet_1.SetPtEtaPhiE(jet_pt->at(goodbjet1_index), jet_eta->at(goodbjet1_index), jet_phi->at(goodbjet1_index),jet_E->at(goodbjet1_index));
-             	bjet_2.SetPtEtaPhiE(jet_pt->at(goodbjet2_index), jet_eta->at(goodbjet2_index), jet_phi->at(goodbjet2_index),jet_E->at(goodbjet2_index));
-				      bjet_3.SetPtEtaPhiE(jet_pt->at(goodbjet3_index), jet_eta->at(goodbjet3_index), jet_phi->at(goodbjet3_index),jet_E->at(goodbjet3_index));
-		  
 
-         }
-        
+       for(Int_t i=0; i<jet_n; i++)
+        {
+           if((jet_pt->at(i)>=35) && abs(jet_eta->at(i))<=4.5)
+		         {
+         if(bjet1_index==i){continue;}
+         if(bjet2_index==i){continue;}
+      //   if(bjet3_index==i){continue;}
+
+         if(test_jet2==0){
+           jet1_index = i;
+           jet1.SetPtEtaPhiE(jet_pt->at(jet1_index), jet_eta->at(jet1_index), jet_phi->at(jet1_index),jet_E->at(jet1_index));
+                }
+         if(test_jet2==1){
+           jet2_index = i;
+           jet2.SetPtEtaPhiE(jet_pt->at(jet2_index), jet_eta->at(jet2_index), jet_phi->at(jet2_index),jet_E->at(jet2_index));
+           break;
+                }
+          test_jet2++;
+          
+          
+          }
+        }
+
+        M_jj = (jet1+jet2).M(); 
         
 
-         }
+	 
+         } 
+
+         
 
     
     // End the code here
