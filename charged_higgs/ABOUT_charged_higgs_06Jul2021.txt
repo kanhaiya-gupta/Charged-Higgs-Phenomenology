@@ -1,0 +1,44 @@
+ * NN Setup * 
+
+ > NN parameters: 
+   >> epochs: 500
+   >> batch_size: 1000
+   >> loss: binary_crossentropy
+   >> optimizer: cadam
+   >> --lr: 0.001
+   >> --decay: None
+   >> --momentum: 0.3
+   >> --nesterov: True
+   >> metrics: ['acc']
+   >> activations: ['elu', 'elu', 'sigmoid']
+   >> nHiddenLayers: 1
+   >> nNodes: [30, 30]
+   >> input_dim: 24
+   >> kfold_splits: 1
+   >> dropout: [0.4, 0.4]
+
+ > NN Features: 
+   >> HT
+   >> bjet1_E
+   >> bjet1_pt
+   >> bjet2_E
+   >> bjet2_pt
+   >> bjet3_E
+   >> bjet3_pt
+   >> elec_E
+   >> elec_pt
+   >> jet1_E
+   >> jet1_pt
+   >> jet2_E
+   >> jet2_pt
+   >> jet3_E
+   >> jet3_pt
+   >> jet4_E
+   >> jet4_pt
+   >> m_bjj
+   >> m_jj
+   >> met
+   >> muon_E
+   >> muon_pt
+   >> pt_bjj
+   >> pt_jj

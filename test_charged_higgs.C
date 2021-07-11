@@ -30,7 +30,13 @@ void test_charged_higgs()
   // Create chain of root trees
   TChain chain("Delphes");
  // chain.Add("/home/kanhaiya/Madgraph/MG5_aMC_v2_5_5/charged_higgs_signal/Events/run_01/tag_1_delphes_events.root");
-  chain.Add("/home/kanhaiya/Madgraph/MG5_aMC_v2_5_5/ttbar_jets/Events/run_01/tag_1_delphes_events.root");
+ // chain.Add("/home/kanhaiya/Madgraph/MG5_aMC_v2_5_5/ttbar_jets/Events/run_01/tag_1_delphes_events.root");
+ // chain.Add("/home/kanhaiya/Madgraph/MG5_aMC_v2_5_5/tjets/Events/run_01/tag_1_delphes_events.root");
+ // chain.Add("/home/kanhaiya/Madgraph/MG5_aMC_v2_5_5/zz_jets/Events/run_01/tag_1_delphes_events.root");
+ // chain.Add("/home/kanhaiya/Madgraph/MG5_aMC_v2_5_5/wz_jets/Events/run_01/tag_1_delphes_events.root");
+ // chain.Add("/home/kanhaiya/Madgraph/MG5_aMC_v2_5_5/ww_jets/Events/run_01/tag_1_delphes_events.root");
+ // chain.Add("/home/kanhaiya/Madgraph/MG5_aMC_v2_5_5/zjets/Events/run_01/tag_1_delphes_events.root");
+  chain.Add("/home/kanhaiya/Madgraph/MG5_aMC_v2_5_5/wjets/Events/run_01/tag_1_delphes_events.root");
 
   // Create object of class ExRootTreeReader
   ExRootTreeReader *treeReader = new ExRootTreeReader(&chain);
@@ -53,7 +59,14 @@ void test_charged_higgs()
 
 // creating the root file as output
 
-  TFile outf("ttbar.root","RECREATE");
+  //TFile outf("charged_higgs.root","RECREATE");
+  //TFile outf("ttbar_jets.root","RECREATE");
+  //TFile outf("tjets.root","RECREATE");
+  //TFile outf("zz_jets.root","RECREATE");
+  //TFile outf("wz_jets.root","RECREATE");
+  //TFile outf("ww_jets.root","RECREATE");
+  //TFile outf("zjets.root","RECREATE");
+  TFile outf("wjets.root","RECREATE");
   std::cout << "creating output ..." <<std::endl;
 
 // creating a tree named delphes
