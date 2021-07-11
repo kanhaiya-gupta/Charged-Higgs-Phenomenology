@@ -1,0 +1,52 @@
+
+if(test_jet1==2){
+                bjet3_index = i;
+                bjet_3.SetPtEtaPhiE(jet_pt->at(bjet3_index), jet_eta->at(bjet3_index), jet_phi->at(bjet3_index),jet_E->at(bjet3_index));
+                break;
+              }
+
+
+
+
+  for(Int_t i=0; i<jet_n; i++)
+        {
+	        if((jet_pt->at(i)>=35) && abs(jet_eta->at(i))<=2.5 && jet_btag->at(i)==1)
+		   {
+              if(test_jet1==0){
+                bjet1_index = i;
+                bjet_1.SetPtEtaPhiE(jet_pt->at(bjet1_index), jet_eta->at(bjet1_index), jet_phi->at(bjet1_index),jet_E->at(bjet1_index));
+             
+              }
+              if(test_jet1==1){
+                bjet2_index = i;
+                bjet_2.SetPtEtaPhiE(jet_pt->at(bjet2_index), jet_eta->at(bjet2_index), jet_phi->at(bjet2_index),jet_E->at(bjet2_index));
+                break;
+              }
+              
+              test_jet1 = test_jet1 + 1;
+              cout << "test_jet1 :  " << test_jet1 << " events" << endl;
+        }
+        	}
+
+    for(Int_t i=0; i<jet_n; i++)
+       {
+           if((jet_pt->at(i)>=35) && abs(jet_eta->at(i))<=4.5)
+		   {
+         if(bjet1_index==i){continue;}
+         if(bjet2_index==i){continue;}
+      //   if(bjet3_index==i){continue;}
+
+         if(test_jet2==0){
+           jet1_index = i;
+           jet1.SetPtEtaPhiE(jet_pt->at(jet1_index), jet_eta->at(jet1_index), jet_phi->at(jet1_index),jet_E->at(jet1_index));
+                }
+         if(test_jet2==1){
+           jet2_index = i;
+           jet2.SetPtEtaPhiE(jet_pt->at(jet2_index), jet_eta->at(jet2_index), jet_phi->at(jet2_index),jet_E->at(jet2_index));
+           break;
+                }
+          test_jet2++;
+          cout << "test_jet2 :  " << test_jet2 << " events" << endl;
+          
+       }
+       } 
